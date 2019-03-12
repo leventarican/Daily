@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="RedA200">#FF5252</color>
+    <color name="LightGreenA200">#B2FF59</color>
+    <color name="LightGreenA400">#76FF03</color>
+    <color name="LightGreenA700">#64DD17</color>
+    <color name="Brown50">#EFEBE9</color>
+    <color name="Brown100">#D7CCC8</color>
+    <color name="Brown200">#BCAAA4</color>
+    <color name="Brown700">#5D4037</color>
+    <color name="BlueGray50">#ECEFF1</color>
+    <color name="Gray100">#F5F5F5</color>
+    <color name="Gray200">#EEEEEE</color>
+    <color name="Gray800">#424242</color>
+    <color name="OrangeA700">#ff6d00</color>
+</resources>
