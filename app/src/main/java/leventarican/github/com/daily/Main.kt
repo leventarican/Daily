@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import kotlinx.android.synthetic.main.main.view.*
 
 
 class Main : Activity(), DailyView {
@@ -106,6 +107,7 @@ class Main : Activity(), DailyView {
 
     override fun uiDistanceToLocation(txt: String) {
         findViewById<TextView>(R.id.txtDistanceToLocation).text = txt
+        (findViewById<TextView>(R.id.progress) as Progress).update("[0-9]+".toRegex().findAll(txt).first().value.toInt())
     }
 
     override fun uiRadius(txt: String) {
