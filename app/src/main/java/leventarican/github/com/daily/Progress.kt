@@ -2,60 +2,61 @@ package leventarican.github.com.daily
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import kotlinx.android.synthetic.main.main.view.*
 
 class Progress : View {
 
-    private var width = 0.0F
-    private var height = 0.0F
     private lateinit var paint: Paint
-    private var progress = 0
+    private lateinit var bar: Rect
 
     constructor(context: Context?): super(context) {
-        init()
+        init(null)
     }
 
     constructor(context: Context?, attrs: AttributeSet): super(context, attrs) {
-        init()
+        init(attrs)
     }
 
     constructor(context: Context?, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr) {
-        init()
+        init(attrs)
     }
 
-    private fun init() {
+    private fun init(attrs: AttributeSet?) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.Progress)
+        val progressColor = typedArray.getColor(R.styleable.Progress_progress_color, Color.GREEN)
+        typedArray.recycle()
+
         paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = resources.getColor(R.color.LightGreenA700, context.theme)
+            color = progressColor
         }
-    }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        Log.d("#code#", "size changed: w=$w, h=$h, oldw=$oldw, oldh=$oldh")
-        width = w.toFloat()
-        height = h.toFloat()
-        progress = width.toInt() - 10
+        bar = Rect().apply {
+            left = 10
+            top = 10
+            right = 0
+            bottom = top + 20
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-        Log.d("#code#", "on draw: ${width.toInt() / 2} - ${height.toInt() / 2 - 10}")
-
-        canvas?.drawRect(Rect().apply {
-            left = 10
-            top = 10
-            right = progress
-            bottom = height.toInt() - 10
-        }, paint)
+        canvas?.drawRect(bar, paint)
     }
 
     fun update(progress: Int) {
-        this.progress = progress * 10 % (width.toInt() - 10) // TODO: this is just sample data
-        Log.d("#code#", "progress: $progress")
+        progress.let {
+            when {
+                it < 1 -> bar.right= getWidth() / 3
+                it < 2 -> bar.right = getWidth() / 2
+                it > 3 -> bar.right = getWidth() / 1 - 10
+            }
+        }
         invalidate()
     }
 }

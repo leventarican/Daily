@@ -89,11 +89,12 @@
                       android:textColor="#000000"
             />
             <leventarican.github.com.daily.Progress
-                    android:layout_width="300dp"
+                    android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:background="@color/Brown200"
+                    app:progress_color="@color/LightGreenA200"
                     android:id="@+id/progress"
             />
         </LinearLayout>
