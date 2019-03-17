@@ -15,7 +15,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import kotlinx.android.synthetic.main.main.view.*
+import kotlinx.android.synthetic.main.main.*
 
 
 class Main : Activity(), DailyView {
@@ -25,7 +25,6 @@ class Main : Activity(), DailyView {
     private lateinit var locationListener: LocationListener
     private var locationManager: LocationManager? = null
     private var provider: String? = null
-    private lateinit var workingZone: Location
     private var userLocation: Location? = null
     private var presenter = DailyPresenter(this, DailyInteractor())
 
@@ -107,7 +106,7 @@ class Main : Activity(), DailyView {
 
     override fun uiDistanceToLocation(txt: String) {
         findViewById<TextView>(R.id.txtDistanceToLocation).text = txt
-        (findViewById<TextView>(R.id.progress) as Progress).update("[0-9]+".toRegex().findAll(txt).first().value.toInt())
+        (findViewById<TextView>(R.id.progress) as Progress).update("[0-9]+".toRegex().findAll(txt).first().value.toInt(), findViewById<SeekBar>(R.id.seekBar).progress)
     }
 
     override fun uiRadius(txt: String) {

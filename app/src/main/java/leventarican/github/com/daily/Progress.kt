@@ -8,12 +8,14 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import kotlinx.android.synthetic.main.main.view.*
 
 class Progress : View {
 
     private lateinit var paint: Paint
+    private lateinit var txtPaint: Paint
     private lateinit var bar: Rect
+    private var txtValue = ""
+    private val padding = 10
 
     constructor(context: Context?): super(context) {
         init(null)
@@ -37,26 +39,38 @@ class Progress : View {
         }
 
         bar = Rect().apply {
-            left = 10
-            top = 10
-            right = 0
-            bottom = top + 20
+            left = padding
+            top = padding
         }
+
+        txtPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            this.color = Color.BLACK
+            this.style = Paint.Style.FILL_AND_STROKE
+            this.textAlign = Paint.Align.CENTER
+            this.textSize = 40f
+        }
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        Log.d("#code#", "height=${height} pixel; density=${height / resources.displayMetrics.density} dp")
+
+        bar.right = padding
+        bar.bottom = height - bar.top
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.drawRect(bar, paint)
+        canvas?.drawText(txtValue, width.toFloat() - 60.toFloat(), (height / 1.5).toFloat(), txtPaint)
     }
 
-    fun update(progress: Int) {
-        progress.let {
-            when {
-                it < 1 -> bar.right= getWidth() / 3
-                it < 2 -> bar.right = getWidth() / 2
-                it > 3 -> bar.right = getWidth() / 1 - 10
-            }
+    fun update(progress: Int, total: Int) {
+        txtValue = "$progress [m]"
+        if (total * progress != 0) {
+            bar.right = width / total * progress - padding
+            postInvalidate()
         }
-        invalidate()
     }
 }
