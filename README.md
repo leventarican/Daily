@@ -4,4 +4,4 @@
 - TODO: manuel time edit
 
 # screenshot
-![daily screenshot](daily-screenshot.png){ width=50% }
+![daily screenshot](daily-screenshot.png)
