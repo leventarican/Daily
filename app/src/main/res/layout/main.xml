@@ -93,10 +93,41 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/Brown200"
                     app:progress_color="@color/LightGreenA200"
                     android:id="@+id/progress"
             />
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="20dp"
+                          android:layout_marginRight="20dp"
+                          android:layout_marginBottom="20dp"
+                          android:orientation="vertical"
+                          android:background="@color/LightGreenA200">
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:padding="5dp"
+                          android:text="pomodoro 25[min]"
+                          android:textColor="@color/Gray800"
+                />
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:background="@color/LightGreenA700">
+                    <Button android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="start"
+                            android:onClick="startPomodoro"/>
+                    <leventarican.github.com.daily.Progress
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@color/LightGreenA700"
+                            app:progress_color="@color/OrangeA700"
+                            android:id="@+id/pomodoro"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
         <TextView
                 android:layout_width="match_parent"

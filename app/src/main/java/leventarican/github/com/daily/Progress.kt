@@ -63,13 +63,19 @@ class Progress : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.drawRect(bar, paint)
-        canvas?.drawText(txtValue, width.toFloat() - 60.toFloat(), (height / 1.5).toFloat(), txtPaint)
+        canvas?.drawText(txtValue, width.toFloat() - 100.toFloat(), (height / 1.5).toFloat(), txtPaint)
     }
 
     fun update(progress: Int, total: Int) {
-        txtValue = "$progress [m]"
+        txtValue = "$progress"
         if (total * progress != 0) {
-            bar.right = width / total * progress - padding
+            var right = width / total * progress - padding
+            if (right < padding) {
+                right = padding
+            } else if (right > width) {
+                right = width - padding
+            }
+            bar.right = right
             postInvalidate()
         }
     }

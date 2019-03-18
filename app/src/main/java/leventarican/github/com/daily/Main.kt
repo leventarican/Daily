@@ -91,6 +91,11 @@ class Main : Activity(), DailyView {
         Log.d("#code#", "set location: ${userLocation!!.latitude}, ${userLocation!!.longitude}")
     }
 
+    fun startPomodoro(view: View) {
+        // TODO: not finished
+        (findViewById<TextView>(R.id.pomodoro) as Progress).update(100 / 3 * 2, 100)
+    }
+
     fun logOnOff(view: View) {
         val element0 = findViewById<LinearLayout>(R.id.element0)
         val element1 = findViewById<ScrollView>(R.id.element1)
