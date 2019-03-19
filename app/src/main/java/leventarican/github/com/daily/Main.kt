@@ -12,10 +12,10 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
-import kotlinx.android.synthetic.main.main.*
 
 
 class Main : Activity(), DailyView {
@@ -92,8 +92,17 @@ class Main : Activity(), DailyView {
     }
 
     fun startPomodoro(view: View) {
-        // TODO: not finished
-        (findViewById<TextView>(R.id.pomodoro) as Progress).update(100 / 3 * 2, 100)
+        val pomodoro = (findViewById<TextView>(R.id.pomodoro) as Progress)
+        val total = 25
+        var progress = 1
+        Thread(Runnable {
+            while (progress <= total) {
+                runOnUiThread {
+                    pomodoro.update(progress++, total)
+                }
+                Thread.sleep(1000)
+            }
+        }).start()
     }
 
     fun logOnOff(view: View) {
@@ -136,6 +145,10 @@ class Main : Activity(), DailyView {
             target = drawable
             duration = 3000
             start()
+        }
+        findViewById<Button>(R.id.setLocation).apply {
+            isEnabled = true
+            isClickable = true
         }
     }
 }

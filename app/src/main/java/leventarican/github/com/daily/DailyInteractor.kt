@@ -21,7 +21,9 @@ class DailyInteractor {
         this.user.userLocation = location
         val distanceInMeter = this.user.userLocation.distanceTo(this.user.workLocation)
         listener.forEach {
-            it.callback(0, "\nlat: ${this.user.userLocation.latitude} lon: ${this.user.userLocation.longitude}")
+            val antarctic = Pair<Double, Double>(-78.599864, 25.030605)
+//            it.callback(0, "\nlat: ${this.user.userLocation.latitude} lon: ${this.user.userLocation.longitude}")
+            it.callback(0, "\nlat: ${antarctic.first} lon: ${antarctic.second}")
             it.callback(0, "\ndistance: $distanceInMeter")
             it.callback(1, "Distance to User: $distanceInMeter [m]")
         }

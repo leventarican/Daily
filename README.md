@@ -4,7 +4,7 @@
 
 # uses cases
 - location (Green Zone)
-- TODO: pomodoro: 25 min task option and visual proceed
+- pomodoro: 25 min task option and visual proceed
 - TODO: manual time edit
 
 # screenshot

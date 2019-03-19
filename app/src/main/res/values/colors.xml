@@ -14,6 +14,7 @@
     <color name="BlueGray50">#ECEFF1</color>
     <color name="Gray100">#F5F5F5</color>
     <color name="Gray200">#EEEEEE</color>
+    <color name="Gray500">#9E9E9E</color>
     <color name="Gray800">#424242</color>
     <color name="OrangeA700">#ff6d00</color>
 </resources>

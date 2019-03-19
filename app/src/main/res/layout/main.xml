@@ -19,9 +19,8 @@
                   android:layout_weight="1"
                   android:padding="10dp"
                   android:background="@color/Gray800"
-                  android:fontFamily="monospace"
                   android:textColor="@color/LightGreenA700"
-                  android:textStyle="bold"/>
+                  android:textStyle="bold" android:textSize="20dp"/>
         <ImageView
                 android:id="@+id/svg0"
                 android:layout_width="40dp"
@@ -52,6 +51,9 @@
                     android:layout_marginRight="20dp"
                     android:text="set location"
                     android:onClick="setWorkLocation"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:id="@+id/setLocation"
             />
             <TextView android:layout_width="match_parent"
                       android:layout_height="30dp"
@@ -104,27 +106,29 @@
                           android:layout_marginRight="20dp"
                           android:layout_marginBottom="20dp"
                           android:orientation="vertical"
-                          android:background="@color/LightGreenA200">
+                          android:background="@color/Gray500">
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:padding="5dp"
-                          android:text="pomodoro 25[min]"
-                          android:textColor="@color/Gray800"
+                          android:text="pomodoro 25 [min]"
+                          android:textColor="#ffffff"
                 />
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:orientation="horizontal"
-                              android:background="@color/LightGreenA700">
+                              android:background="@color/Gray800">
                     <Button android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
                             android:text="start"
                             android:onClick="startPomodoro"/>
                     <leventarican.github.com.daily.Progress
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:background="@color/LightGreenA700"
-                            app:progress_color="@color/OrangeA700"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            app:progress_color="@color/Gray500"
                             android:id="@+id/pomodoro"/>
                 </LinearLayout>
             </LinearLayout>
@@ -134,19 +138,21 @@
                 android:layout_height="50dp"
                 android:background="@color/Gray800"
                 android:text="Log"
+                android:textColor="@color/LightGreenA700"
+                android:fontFamily="monospace"
                 android:gravity="center"
                 android:onClick="logOnOff"
-                android:textColor="@color/LightGreenA700"
         />
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@android:color/background_light"
+                android:background="@color/Gray500"
                 android:id="@+id/element1">
             <TextView
                     android:id="@+id/txtLog"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:textColor="@color/Gray100"
             />
         </ScrollView>
     </LinearLayout>
