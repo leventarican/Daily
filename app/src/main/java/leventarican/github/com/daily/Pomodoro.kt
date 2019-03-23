@@ -1,21 +1,26 @@
 package leventarican.github.com.daily
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.MotionEvent
-
+import kotlin.math.ceil
+import android.R.attr.y
+import android.R.attr.x
+import android.graphics.*
+import android.graphics.Path.FillType
+import android.system.Os.close
 
 
 class Pomodoro : View {
 
     private var viewWidth: Int = 0
-    private var value = 3  // 1..5
+    private var steps = 25/5    // max pomdoro time: 25min; number of setting steps: 5
+    private var value = ceil(steps/2.0).toInt()
+
     private lateinit var rulerPaint: Paint
+    private lateinit var txtPaint: Paint
 
     constructor(context: Context?): super(context) {
         init(null)
@@ -34,9 +39,15 @@ class Pomodoro : View {
             this.color = Color.WHITE
             this.strokeWidth = 5F
         }
+        txtPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            this.color = Color.WHITE
+            this.style = Paint.Style.FILL_AND_STROKE
+            this.textAlign = Paint.Align.CENTER
+            this.textSize = 40f
+        }
 
         var down = 0
-        var motion = 0
+        var motion: Int
         setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -44,11 +55,11 @@ class Pomodoro : View {
                 }
                 MotionEvent.ACTION_UP -> {
                     motion = event.x.toInt() - down
-                    if (motion < 300) {
-                        if ((value+1) <= 5) {
+                    if (motion < -200) {
+                        if ((value+1) <= steps) {
                             value++
                         }
-                    } else if (motion > 300) {
+                    } else if (motion > 200) {
                         if ((value-1) > 0) {
                             value--
                         }
@@ -72,36 +83,33 @@ class Pomodoro : View {
         super.onDraw(canvas)
 
         /*
-        0 mins  > | | | | |
-        25 min  >         | | | | |
-        10 min  >     | | | | |
+        25 min  > | | | | |
+        05 min  >         | | | | |
+        15 min  >     | | | | |
          */
-        val steps = (width-100/*some padding*/) / 5
-        // TODO: refactor
-        when (value) {
-            1 -> {
-                for (i in 3..5) {
-                    canvas?.drawLine((steps * i).toFloat(), 10F, (steps * i).toFloat(), 100F, rulerPaint)
+        val gab = (width-100/*some padding*/) / steps
+        val centre = ceil(steps/2.0).toInt()
+        // e.g. steps = 5; centre = 3
+        when {
+            value < centre -> {
+                for (i in centre-centre%value..steps) {
+                    val x = (gab * i).toFloat()
+                    canvas?.drawLine(x, 10F, x, 100F, rulerPaint)
+                    canvas?.drawText("${(i-(centre-value))*steps}", x, 150F, txtPaint)
                 }
             }
-            2 -> {
-                for (i in 2..5) {
-                    canvas?.drawLine((steps * i).toFloat(), 10F, (steps * i).toFloat(), 100F, rulerPaint)
+            value > centre -> {
+                for (i in 1..centre+steps%value) {
+                    val x = (gab * i).toFloat()
+                    canvas?.drawLine((gab * i).toFloat(), 10F, (gab * i).toFloat(), 100F, rulerPaint)
+                    canvas?.drawText("${(i+(value-centre))*steps}", x, 150F, txtPaint)
                 }
             }
-            3 -> {
-                for (i in 1..5) {
-                    canvas?.drawLine((steps * i).toFloat(), 10F, (steps * i).toFloat(), 100F, rulerPaint)
-                }
-            }
-            4 -> {
-                for (i in 1..4) {
-                    canvas?.drawLine((steps * i).toFloat(), 10F, (steps * i).toFloat(), 100F, rulerPaint)
-                }
-            }
-            5 -> {
-                for (i in 1..3) {
-                    canvas?.drawLine((steps * i).toFloat(), 10F, (steps * i).toFloat(), 100F, rulerPaint)
+            value == centre -> {
+                for (i in 1..steps) {
+                    val x = (gab * i).toFloat()
+                    canvas?.drawLine((gab * i).toFloat(), 10F, (gab * i).toFloat(), 100F, rulerPaint)
+                    canvas?.drawText("${i*steps}", x, 150F, txtPaint)
                 }
             }
         }
