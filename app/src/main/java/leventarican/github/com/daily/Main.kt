@@ -12,7 +12,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -92,15 +91,17 @@ class Main : Activity(), DailyView {
     }
 
     fun startPomodoro(view: View) {
-        val pomodoro = (findViewById<TextView>(R.id.pomodoro) as Progress)
+        val progressPomodoro = (findViewById<TextView>(R.id.progressPomodoro) as Progress)
+        val componentPomodoro = findViewById<Pomodoro>(R.id.pomodoroComponent)
+        val time = componentPomodoro.value * 60 * 1000
         val total = 25
         var progress = 1
         Thread(Runnable {
             while (progress <= total) {
                 runOnUiThread {
-                    pomodoro.update(progress++, total)
+                    progressPomodoro.update(progress++, total)
                 }
-                Thread.sleep(1000)
+                Thread.sleep(time.toLong())
             }
         }).start()
     }

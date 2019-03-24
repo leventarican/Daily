@@ -129,7 +129,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             app:progress_color="@color/Gray500"
-                            android:id="@+id/pomodoro"/>
+                            android:id="@+id/progressPomodoro"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout android:layout_width="match_parent"
@@ -147,7 +147,8 @@
 
                 <leventarican.github.com.daily.Pomodoro
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"/>
+                        android:layout_height="100dp"
+                        android:id="@+id/pomodoroComponent"/>
             </LinearLayout>
         </LinearLayout>
         <TextView

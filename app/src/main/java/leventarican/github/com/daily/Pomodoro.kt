@@ -1,23 +1,22 @@
 package leventarican.github.com.daily
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.Path.FillType
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.view.MotionEvent
+import android.view.View
 import kotlin.math.ceil
-import android.R.attr.y
-import android.R.attr.x
-import android.graphics.*
-import android.graphics.Path.FillType
-import android.system.Os.close
-
 
 class Pomodoro : View {
 
     private var viewWidth: Int = 0
     private var steps = 25/5    // max pomdoro time: 25min; number of setting steps: 5
-    private var value = ceil(steps/2.0).toInt()
+    var value = ceil(steps/2.0).toInt()
 
     private lateinit var rulerPaint: Paint
     private lateinit var txtPaint: Paint
@@ -82,6 +81,11 @@ class Pomodoro : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+        drawLinesAndText(canvas)
+        drawArrow(canvas)
+    }
+
+    private fun drawLinesAndText(canvas: Canvas?) {
         /*
         25 min  > | | | | |
         05 min  >         | | | | |
@@ -113,6 +117,20 @@ class Pomodoro : View {
                 }
             }
         }
+    }
+
+    private fun drawArrow(canvas: Canvas?) {
+        canvas?.drawPath(Path().apply {
+            fillType = FillType.EVEN_ODD
+            moveTo((width/2).toFloat(), 170F)
+            lineTo((width/2).toFloat()-40, 190F)
+            lineTo((width/2).toFloat()+40, 190F)
+            close()
+        }, rulerPaint)
+    }
+
+    fun sample() {
+        println("pomodoro")
     }
 
 }
