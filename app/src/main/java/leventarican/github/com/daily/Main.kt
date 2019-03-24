@@ -107,8 +107,8 @@ class Main : Activity(), DailyView {
     }
 
     fun logOnOff(view: View) {
-        val element0 = findViewById<LinearLayout>(R.id.element0)
-        val element1 = findViewById<ScrollView>(R.id.element1)
+        val element0 = findViewById<ScrollView>(R.id.element0)
+        val element1 = findViewById<LinearLayout>(R.id.element1)
         val layoutParams0 = element0.layoutParams as LinearLayout.LayoutParams
         val layoutParams1 = element1.layoutParams as LinearLayout.LayoutParams
 
