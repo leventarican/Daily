@@ -93,8 +93,8 @@ class Main : Activity(), DailyView {
     fun startPomodoro(view: View) {
         val progressPomodoro = (findViewById<TextView>(R.id.progressPomodoro) as Progress)
         val componentPomodoro = findViewById<Pomodoro>(R.id.pomodoroComponent)
-        val time = componentPomodoro.value * 60 * 1000
-        val total = 25
+        val total = componentPomodoro.getMins()
+        val time =  total * 60 * 1000
         var progress = 1
         Thread(Runnable {
             while (progress <= total) {
@@ -107,7 +107,7 @@ class Main : Activity(), DailyView {
     }
 
     fun logOnOff(view: View) {
-        val element0 = findViewById<ScrollView>(R.id.element0)
+        val element0 = findViewById<LinearLayout>(R.id.element0)
         val element1 = findViewById<LinearLayout>(R.id.element1)
         val layoutParams0 = element0.layoutParams as LinearLayout.LayoutParams
         val layoutParams1 = element1.layoutParams as LinearLayout.LayoutParams

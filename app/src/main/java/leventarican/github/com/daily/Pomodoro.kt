@@ -129,8 +129,8 @@ class Pomodoro : View {
         }, rulerPaint)
     }
 
-    fun sample() {
-        println("pomodoro")
+    fun getMins(): Int {
+        return value * 5
     }
 
 }
