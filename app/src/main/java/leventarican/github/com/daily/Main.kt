@@ -15,10 +15,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.motion.widget.MotionScene
 
 
 class Main : Activity(), DailyView {
-
     private val REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 42
     private lateinit var log: TextView
     private lateinit var locationListener: LocationListener
@@ -30,25 +31,27 @@ class Main : Activity(), DailyView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_v2)
+    }
 
-//        log = findViewById(R.id.txtLog)
-//
-//        findViewById<SeekBar>(R.id.seekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-//                presenter.changeRadius(i)
-//            }
-//            override fun onStartTrackingTouch(seekBar: SeekBar) { }
-//            override fun onStopTrackingTouch(seekBar: SeekBar) { }
-//        })
-//
-//        userLocation = Location(LocationManager.GPS_PROVIDER)
-//        presenter.changeWorkingZone(userLocation!!)
-//
-//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
-//        } else {
-//            initializeLocation()
-//        }
+    private fun initialize() {
+        //        log = findViewById(R.id.txtLog)
+        //
+        //        findViewById<SeekBar>(R.id.seekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        //            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+        //                presenter.changeRadius(i)
+        //            }
+        //            override fun onStartTrackingTouch(seekBar: SeekBar) { }
+        //            override fun onStopTrackingTouch(seekBar: SeekBar) { }
+        //        })
+        //
+        //        userLocation = Location(LocationManager.GPS_PROVIDER)
+        //        presenter.changeWorkingZone(userLocation!!)
+        //
+        //        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
+        //        } else {
+        //            initializeLocation()
+        //        }
     }
 
     override fun onResume() {
