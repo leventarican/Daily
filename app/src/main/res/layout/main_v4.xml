@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     <fragment
-            android:id="@+id/progress"
+            android:id="@+id/progressFragment"
             android:name="leventarican.github.com.daily.panes.ProgressFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@+id/top"/>
 
     <fragment
-            android:id="@+id/pomodoro"
+            android:id="@+id/pomodoroFragment"
             android:name="leventarican.github.com.daily.panes.PomodoroFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -42,118 +42,25 @@
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress"/>
+            app:layout_constraintTop_toBottomOf="@+id/progressFragment"/>
 
     <androidx.core.widget.NestedScrollView
             android:id="@+id/log"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:background="@color/Gray800"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pomodoro">
+            app:layout_constraintTop_toBottomOf="@id/pomodoroFragment">
 
-        <LinearLayout
-                android:background="@color/Gray800"
+        <TextView
+                android:id="@+id/txtLog"
+                android:text="@string/txtLog"
+                android:padding="8dp"
+                android:textSize="25sp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="code"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:textColor="@color/Gray100"/>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

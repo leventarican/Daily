@@ -30,7 +30,7 @@ class Main : Activity(), DailyView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_v2)
+        setContentView(R.layout.main)
     }
 
     private fun initialize() {
