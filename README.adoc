@@ -8,11 +8,7 @@
 * pomodoro: 25 min task option and visual proceed
 * TODO: manual time edit
 
-== screenshot
-image::daily-screenshot.png[]
-
-== branches
-* master
-* feature/constraint
-
-
+== version 0.0.2: screenshot
+image::daily-v2.gif[]
+== version 0.0.1: screenshot
+image::daily-v1.png[]
