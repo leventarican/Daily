@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.main_v4.*
 import kotlinx.android.synthetic.main.progress_fragment.*
@@ -19,16 +20,17 @@ import kotlinx.android.synthetic.main.progress_fragment.*
 class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
 
     private val REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 42
-    private var userLocation: Location? = null
-    private var provider: String? = null
     private var presenter = DailyPresenter(this, DailyInteractor())
-    private var locationManager: LocationManager? = null
+    private lateinit var userLocation: Location
+    private lateinit var provider: String
+    private lateinit var locationManager: LocationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_v4)
 
-        initialize()
+        initializeSeekBar()
+        initializeGPS()
     }
 
 
@@ -47,31 +49,28 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
         }
     }
 
-    private fun initialize() {
+    private fun initializeSeekBar() {
         getSeekBar()?.onProgressChanged { progress, _ ->
             presenter.changeRadius(progress)
         }
-        userLocation = Location(LocationManager.GPS_PROVIDER)
-        presenter.changeWorkingZone(userLocation!!)
+    }
+
+    private fun initializeGPS() {
         if (GPSPermission()) {
-            initializeLocation()
+            locationManager = getSystemService(LocationManager::class.java)
+            provider = locationManager?.getBestProvider(Criteria().apply {
+                accuracy = Criteria.ACCURACY_COARSE
+                powerRequirement = Criteria.POWER_LOW
+            }, true)
+            userLocation = Location(LocationManager.GPS_PROVIDER)
+            presenter.changeWorkingZone(userLocation!!)
         } else {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
         }
     }
 
-    private fun initializeLocation() {
-        with(getSystemService(LocationManager::class.java)) {
-            this ?: finish()
-            provider = getBestProvider(Criteria().apply {
-                this.accuracy = Criteria.ACCURACY_COARSE
-                this.powerRequirement = Criteria.POWER_LOW
-            }, true)
-        }
-    }
-
     override fun onLocationChanged(location: Location?) {
-        userLocation = location
+        userLocation = location!!
         location?.let { presenter.changeLocation(it) }
     }
 
@@ -84,24 +83,23 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
     // DailyView
     override fun uiDistanceToLocation(txt: String) {
         txtDistanceToLocation.text = txt
-        val progressView = progressFragment.view?.findViewById<Progress>(R.id.progress)
         val progress = "[0-9]+".toRegex().findAll(txt).first().value.toInt()
-        val total = progressFragment.view?.findViewById<SeekBar>(R.id.seekBar)?.progress
-        total?.let { progressView?.update(progress, it) }
+        val total = getSeekBar()?.progress
+        total?.let { getProgressView()?.update(progress, it) }
     }
 
     override fun uiRadius(txt: String) {
-        Log.d("#code#", "ui radius TODO: $txt")
+        getRadiusTextView()?.text = txt
     }
 
     override fun uiLog(txt: String) = txtLog.append(txt)
 
     override fun uiTotal(txt: String) {
-        Log.d("#code#", "ui total TODO: $txt")
+        txtTotal.text = txt
     }
 
     override fun uiStartStop(status: String) {
-        progressFragment.view?.findViewById<Button>(R.id.setLocation)?.apply {
+        getSetLocationButton()?.apply {
             isEnabled = true
             isClickable = true
         }
@@ -109,6 +107,9 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
 
     private fun GPSPermission(): Boolean = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     private fun getSeekBar() = progressFragment.view?.findViewById<SeekBar>(R.id.seekBar)
+    private fun getRadiusTextView() = progressFragment.view?.findViewById<TextView>(R.id.txtRadius)
+    private fun getSetLocationButton() = progressFragment.view?.findViewById<Button>(R.id.setLocation)
+    private fun getProgressView() = progressFragment.view?.findViewById<Progress>(R.id.progress)
 }
 
 interface LocationChangedListener : LocationListener {

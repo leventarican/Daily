@@ -6,8 +6,7 @@ import java.util.*
 
 class DailyInteractor {
 
-    val workTime = WorkTime()
-    val user = User()
+    private val user = User()
     val listener = mutableListOf<PIInterface>()
 
     fun updateRadius(radius: Int) {
@@ -18,11 +17,11 @@ class DailyInteractor {
         }
     }
 
-    fun updateLocation(location: android.location.Location) {
+    fun updateLocation(location: Location) {
         user.userLocation = location
         val distanceInMeter = user.userLocation!!.distanceTo(user.workLocation)
         listener.forEach {
-            val antarctic = Pair<Double, Double>(-78.599864, 25.030605)
+            val antarctic = Pair(-78.599864, 25.030605)
 //            it.callback(0, "\nlat: ${this.user.userLocation.latitude} lon: ${this.user.userLocation.longitude}")
             it.callback(0, "\nlat: ${antarctic.first} lon: ${antarctic.second}")
             it.callback(0, "\ndistance: $distanceInMeter")
@@ -56,7 +55,7 @@ class DailyInteractor {
         }
     }
 
-    fun updateWorkingZone(location: android.location.Location) {
+    fun updateWorkingZone(location: Location) {
         this.user.workLocation = location
         this.user.userLocation = location
     }
@@ -70,14 +69,6 @@ class DailyInteractor {
         val listOfWorkTime: MutableList<WorkTime> = mutableListOf(),
         var userLocation: Location? = null, var workLocation: Location? = null
     )
-
-//    class User() {
-//        var radius = 1F
-//        var isWorking = false
-//        var listOfWorkTime = mutableListOf<WorkTime>()
-//        lateinit var userLocation: android.location.Location
-//        lateinit var workLocation: android.location.Location
-//    }
 
     class WorkTime() {
         lateinit var start: Calendar

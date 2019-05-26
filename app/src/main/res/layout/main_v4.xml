@@ -11,16 +11,35 @@
             android:id="@+id/top"
             android:text="Daily"
             android:textSize="30sp"
+            android:gravity="left"
+            android:padding="8dp"
+            android:textColor="@color/Brown50"
+            android:background="@color/Brown700"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+    />
+    <TextView
+            android:id="@+id/txtTotal"
+            android:text="Total:"
+            android:textSize="20sp"
             android:gravity="center"
             android:textColor="@color/Brown50"
             android:background="@color/Brown700"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_default="percent"
             app:layout_constraintHeight_percent="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
 
     <fragment
             android:id="@+id/progressFragment"
