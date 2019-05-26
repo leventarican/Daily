@@ -2,19 +2,23 @@ package leventarican.github.com.daily
 
 import android.location.Location
 
-class DailyPresenter(private val view: DailyView, private val interactor: DailyInteractor): DailyInteractor.PIInterface {
+class DailyPresenter(private val view: DailyView, private val interactor: DailyInteractor) : DailyInteractor.PIInterface {
 
     init {
         interactor.listener.add(this)
     }
 
-    override fun callback(id: Int, event: String) {
+    enum class UI {
+        LOG, DISTANCE, RADIUS, TOTAL, START_STOP
+    }
+
+    override fun callback(id: UI, event: String) {
         when (id) {
-            0 -> { view.uiLog(event) }
-            1 -> { view.uiDistanceToLocation(event) }
-            2 -> { view.uiRadius(event) }
-            3 -> { view.uiTotal(event) }
-            4 -> { view.uiStartStop(event) }
+            UI.LOG -> { view.uiLog(event) }
+            UI.DISTANCE -> { view.uiDistanceToLocation(event) }
+            UI.RADIUS -> { view.uiRadius(event) }
+            UI.TOTAL -> { view.uiTotal(event) }
+            UI.START_STOP -> { view.uiStartStop(event) }
         }
     }
 
