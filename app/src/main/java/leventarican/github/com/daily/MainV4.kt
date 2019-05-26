@@ -1,6 +1,7 @@
 package leventarican.github.com.daily
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.Location
@@ -9,15 +10,15 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.main_v4.*
 import kotlinx.android.synthetic.main.progress_fragment.*
 
-class MainV4 : AppCompatActivity(), DailyView {
+class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
 
     private val REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 42
-    private lateinit var locationListener: LocationListener
     private var userLocation: Location? = null
     private var provider: String? = null
     private var presenter = DailyPresenter(this, DailyInteractor())
@@ -30,61 +31,48 @@ class MainV4 : AppCompatActivity(), DailyView {
         initialize()
     }
 
+
+    @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager?.requestLocationUpdates(provider, 50L, 0F, locationListener);
+        if (GPSPermission()) {
+            locationManager?.requestLocationUpdates(provider, 50L, 0F, this)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager?.removeUpdates(locationListener)
+        if (GPSPermission()) {
+            locationManager?.removeUpdates(this)
         }
     }
 
     private fun initialize() {
-        findViewById<SeekBar>(R.id.seekBar).setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                presenter.changeRadius(i)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
-        })
-
+        getSeekBar()?.onProgressChanged { progress, _ ->
+            presenter.changeRadius(progress)
+        }
         userLocation = Location(LocationManager.GPS_PROVIDER)
         presenter.changeWorkingZone(userLocation!!)
-
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSION_ACCESS_FINE_LOCATION
-            )
-        } else {
+        if (GPSPermission()) {
             initializeLocation()
+        } else {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
         }
     }
 
     private fun initializeLocation() {
-        locationManager = getSystemService(LocationManager::class.java)
-        locationManager ?: finish()
-        locationListener = object : LocationListener {
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-            override fun onProviderEnabled(provider: String?) {}
-            override fun onProviderDisabled(provider: String?) {}
-            override fun onLocationChanged(location: Location?) {
-                userLocation = location
-                presenter.changeLocation(location!!)
-                Log.d("#code#", "location changed")
-            }
-        }
-        provider = locationManager?.getBestProvider(
-            Criteria().apply {
+        with(getSystemService(LocationManager::class.java)) {
+            this ?: finish()
+            provider = getBestProvider(Criteria().apply {
                 this.accuracy = Criteria.ACCURACY_COARSE
                 this.powerRequirement = Criteria.POWER_LOW
-            }, true
-        )
+            }, true)
+        }
+    }
+
+    override fun onLocationChanged(location: Location?) {
+        userLocation = location
+        location?.let { presenter.changeLocation(it) }
     }
 
     // onClick
@@ -113,7 +101,29 @@ class MainV4 : AppCompatActivity(), DailyView {
     }
 
     override fun uiStartStop(status: String) {
-        // TODO impl
+        progressFragment.view?.findViewById<Button>(R.id.setLocation)?.apply {
+            isEnabled = true
+            isClickable = true
+        }
     }
+
+    private fun GPSPermission(): Boolean = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun getSeekBar() = progressFragment.view?.findViewById<SeekBar>(R.id.seekBar)
 }
 
+interface LocationChangedListener : LocationListener {
+    override fun onLocationChanged(location: Location?)
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
+    override fun onProviderEnabled(provider: String?) = Unit
+    override fun onProviderDisabled(provider: String?) = Unit
+}
+
+// make usage of extension function and higher order function for readable code.
+fun SeekBar.onProgressChanged(callback: (Int, Boolean) -> Unit) {
+
+    setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onStopTrackingTouch(seekBar: SeekBar) = Unit
+        override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) = callback(progress, fromUser)
+    })
+}

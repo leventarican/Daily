@@ -1,5 +1,6 @@
 package leventarican.github.com.daily
 
+import android.location.Location
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,8 +19,8 @@ class DailyInteractor {
     }
 
     fun updateLocation(location: android.location.Location) {
-        this.user.userLocation = location
-        val distanceInMeter = this.user.userLocation.distanceTo(this.user.workLocation)
+        user.userLocation = location
+        val distanceInMeter = user.userLocation!!.distanceTo(user.workLocation)
         listener.forEach {
             val antarctic = Pair<Double, Double>(-78.599864, 25.030605)
 //            it.callback(0, "\nlat: ${this.user.userLocation.latitude} lon: ${this.user.userLocation.longitude}")
@@ -27,7 +28,7 @@ class DailyInteractor {
             it.callback(0, "\ndistance: $distanceInMeter")
             it.callback(1, "Distance to User: $distanceInMeter [m]")
         }
-        if (distanceInMeter > this.user.radius) {
+        if (distanceInMeter > user.radius) {
             if (user.isWorking) {
                 user.isWorking = false
                 user.listOfWorkTime.last().end = Calendar.getInstance()
@@ -64,13 +65,19 @@ class DailyInteractor {
         fun callback(id: Int, event: String)
     }
 
-    class User() {
-        var radius = 1F
-        var isWorking = false
-        var listOfWorkTime = mutableListOf<WorkTime>()
-        lateinit var userLocation: android.location.Location
-        lateinit var workLocation: android.location.Location
-    }
+    data class User(
+        var radius: Float = 1F, var isWorking: Boolean = false,
+        val listOfWorkTime: MutableList<WorkTime> = mutableListOf(),
+        var userLocation: Location? = null, var workLocation: Location? = null
+    )
+
+//    class User() {
+//        var radius = 1F
+//        var isWorking = false
+//        var listOfWorkTime = mutableListOf<WorkTime>()
+//        lateinit var userLocation: android.location.Location
+//        lateinit var workLocation: android.location.Location
+//    }
 
     class WorkTime() {
         lateinit var start: Calendar
