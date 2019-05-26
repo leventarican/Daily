@@ -64,6 +64,7 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
             }, true)
             userLocation = Location(LocationManager.GPS_PROVIDER)
             presenter.changeWorkingZone(userLocation!!)
+            txtTotal.setBackgroundResource(R.color.LightGreen800)
         } else {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_PERMISSION_ACCESS_FINE_LOCATION)
         }

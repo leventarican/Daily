@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="RedA200">#FF5252</color>
+    <color name="RedA100">#FF8A80</color>
     <color name="LightGreenA200">#B2FF59</color>
     <color name="LightGreenA400">#76FF03</color>
     <color name="LightGreenA700">#64DD17</color>
+    <color name="LightGreen800">#558B2F</color>
     <color name="Brown50">#EFEBE9</color>
     <color name="Brown100">#D7CCC8</color>
     <color name="Brown200">#BCAAA4</color>

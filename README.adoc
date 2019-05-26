@@ -17,6 +17,8 @@
 - TODO: list times recorded
 - TODO: edit times
 
+== version 0.0.3: screenshot
+image::daily-v3.png[]
 == version 0.0.2: screenshot
 image::daily-v2.gif[]
 == version 0.0.1: screenshot
