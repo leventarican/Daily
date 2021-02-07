@@ -16,9 +16,13 @@
     * TODO: list times recorded
     * TODO: edit times
 
+## used permissions
+* ACCESS_FINE_LOCATION
+* ~~ACCESS_BACKGROUND_LOCATION~~ not implemented yet 
+
 ## version 0.0.3: screenshot
 ![](daily-v3.png)
 ## version 0.0.2: screenshot
-![](daily-v3.gif)
+![](daily-v2.gif)
 ## version 0.0.1: screenshot
 ![](daily-v1.png)
