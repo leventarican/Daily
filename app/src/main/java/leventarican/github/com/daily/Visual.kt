@@ -72,7 +72,7 @@ class Visual : View {
             right = 200
             bottom = 200
         }
-        canvas?.drawRect(r0, paint)
+        canvas?.drawRect(r0, paint!!)
 
         val r1 = Rect().apply {
             left = 20

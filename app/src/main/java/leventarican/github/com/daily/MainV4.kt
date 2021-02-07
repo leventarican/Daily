@@ -23,7 +23,7 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
     private var presenter = DailyPresenter(this, DailyInteractor())
     private lateinit var userLocation: Location
     private lateinit var provider: String
-    private lateinit var locationManager: LocationManager
+    private var locationManager: LocationManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,18 +33,17 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
         initializeGPS()
     }
 
-
     @SuppressLint("MissingPermission")
     override fun onResume() {
         super.onResume()
-        if (GPSPermission()) {
+        if (gpsPermission()) {
             locationManager?.requestLocationUpdates(provider, 50L, 0F, this)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (GPSPermission()) {
+        if (gpsPermission()) {
             locationManager?.removeUpdates(this)
         }
     }
@@ -56,12 +55,12 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
     }
 
     private fun initializeGPS() {
-        if (GPSPermission()) {
+        if (gpsPermission()) {
             locationManager = getSystemService(LocationManager::class.java)
             provider = locationManager?.getBestProvider(Criteria().apply {
                 accuracy = Criteria.ACCURACY_COARSE
                 powerRequirement = Criteria.POWER_LOW
-            }, true)
+            }, true)!!
             userLocation = Location(LocationManager.GPS_PROVIDER)
             presenter.changeWorkingZone(userLocation!!)
             txtTotal.setBackgroundResource(R.color.LightGreen800)
@@ -70,7 +69,7 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
         }
     }
 
-    override fun onLocationChanged(location: Location?) {
+    override fun onLocationChanged(location: Location) {
         userLocation = location!!
         location?.let { presenter.changeLocation(it) }
     }
@@ -106,7 +105,7 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
         }
     }
 
-    private fun GPSPermission(): Boolean = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun gpsPermission(): Boolean = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     private fun getSeekBar() = progressFragment.view?.findViewById<SeekBar>(R.id.seekBar)
     private fun getRadiusTextView() = progressFragment.view?.findViewById<TextView>(R.id.txtRadius)
     private fun getSetLocationButton() = progressFragment.view?.findViewById<Button>(R.id.setLocation)
@@ -114,10 +113,7 @@ class MainV4 : AppCompatActivity(), DailyView, LocationChangedListener {
 }
 
 interface LocationChangedListener : LocationListener {
-    override fun onLocationChanged(location: Location?)
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
-    override fun onProviderEnabled(provider: String?) = Unit
-    override fun onProviderDisabled(provider: String?) = Unit
+    override fun onLocationChanged(location: Location)
 }
 
 // make usage of extension function and higher order function for readable code.
